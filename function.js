@@ -28,8 +28,6 @@ polygonButton.addEventListener('click', function() {
 polygonButtonSubmit.addEventListener('click', function() {
     polygonForm.style.display = 'none';
     const numVertices = parseInt(polygonInput.value);
-    console.log(polygonInput.value);
-    console.log(numVertices);
     addShape("polygon", numVertices);
 })
 
@@ -116,14 +114,11 @@ function addShape(shape, numVertices=null) {
         ];
     }
     if (shape === "polygon") {
-        console.log("lululu", numVertices);
         for (let i = 0; i < numVertices; i++) {
             vertices.push(0.5 * Math.cos(2 * Math.PI * i / numVertices));
             vertices.push(0.5 * Math.sin(2 * Math.PI * i / numVertices));
         }
     }
-
-    console.log("debug", vertices);
 
     const obj = new GLShape(vertices, gl, program);
     allShape.push(obj);
@@ -132,8 +127,6 @@ function addShape(shape, numVertices=null) {
 }
 
 function render() {
-
-    console.log(allShape);
     
     gl.clearColor(0, 0, 0, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);

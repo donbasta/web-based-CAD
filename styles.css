@@ -1,4 +1,8 @@
-button {
-    display: block;
-    margin-bottom: 10px;
+.container {
+    margin: 20px;
+}
+
+.center {
+    text-align: center;
+    margin-top: 50px;
 }

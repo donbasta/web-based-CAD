@@ -2,10 +2,11 @@
     <head>
         <link rel="stylesheet" href="styles.css"/>
         <script id = "vertex" type = "x-shader/x-vertex">
-            attribute vec4 aVertexPosition;
+            attribute vec2 aVertexPosition;
+            uniform mat4 formMatrix;
             
             void main() {
-                gl_Position = aVertexPosition;
+                gl_Position = formMatrix * vec4(aVertexPosition, 0.0, 1.0);
             }
         </script>
 
@@ -20,12 +21,18 @@
                 gl_FragColor = uColor;
             }
         </script>
-
-        <script type = "text/javascript" src= "function.js"></script>
     </head>
 
-    <body>
-        <button onClick = "createRectangle()">Square</button>
-        <canvas id = "draw-shape" width = "500" height = "500"></canvas>
+    <body onload="start()">
+        <div class = "container">
+            <button id = "sq-button">Square</button>
+            <button type = "button" id = "line-button">Line</button>
+        </div>
+
+        <div class = "container center">
+            <canvas id = "draw-shape" width = "500" height = "500"></canvas>
+        </div>
     </body>
+    
+    <script type = "text/javascript" src= "function.js"></script>
 </html>

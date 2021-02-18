@@ -1,15 +1,15 @@
-var gl;
-var program;
+let gl;
+let program;
 const allShape = [];
 
-var sqButton = document.getElementById("sq-button");
+let sqButton = document.getElementById("sq-button");
 sqButton.addEventListener('click', function() {
-    drawAll("sq");
+    addShape("square");
 })
 
-var lineButton = document.getElementById("line-button");
+let lineButton = document.getElementById("line-button");
 lineButton.addEventListener('click', function() {
-    drawAll("line");
+    addShape("line");
 })
 
 function start() {
@@ -70,101 +70,45 @@ function createProg(gl, vertexId, fragmentId) {
     return program;
 }
 
-function initBuffer(shape) {
-    if(shape == "sq") {
-        const verticesSq = new Float32Array([
+function addShape(shape) {
+
+    let vertices;
+    if (shape === "square") {
+        vertices = [
             -0.5, -0.5,
             +0.5, -0.5,
             +0.5, +0.5,
             -0.5, +0.5
-        ]);
-
-        return verticesSq;
+        ];
     }
-    else if(shape == "line") {
-        const verticesLine = new Float32Array([
+    if (shape === "line") {
+        vertices = [
             -0.5, 0.5,
             0.5, 0.5
-        ]);
-        
-        return verticesLine;
+        ];
     }
+
+    const obj = new GLShape(vertices, gl, program);
+    allShape.push(obj);
+
+    render();
 }
 
-function draw(shape) {
-    gl.clearColor(0, 0, 0, 1);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    let attributeLoc = gl.getAttribLocation(program, "aVertexPosition");
-    let colorLoc = gl.getUniformLocation(program, "uColor");
-    let mat = gl.getUniformLocation(program, "formMatrix");
-    let identityMat = new Float32Array([
-        1.0, 0.0, 0.0, 0.0,
-        0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0
-    ]);
-    let itemSize = 2;
+function render() {
 
-    const vertices = initBuffer(shape);
-
-    buff = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buff);
-    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-
-    gl.useProgram(program);
-    gl.enableVertexAttribArray(attributeLoc);
-    gl.vertexAttribPointer(attributeLoc, itemSize, gl.FLOAT, false, 0, 0);
-    gl.uniform4fv(colorLoc, [1, 0.0, 0.0, 1.0]);
-    gl.uniformMatrix4fv(mat, false, identityMat);
-    console.log(mat);
-
-    if(vertices.length == 8) { // square
-        gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
-    }
-    else if(vertices.length == 4) { // line
-        gl.lineWidth(1.0);
-        gl.drawArrays(gl.LINES, 0, 2);
-    }
-}
-
-function drawAll(shape) {
+    console.log(allShape);
+    
     gl.clearColor(0, 0, 0, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    const vertices = initBuffer(shape);
-    let mat = gl.getUniformLocation(program, "formMatrix");
-    let identityMat = new Float32Array([
-        1.0, 0.0, 0.0, 0.0,
-        0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0
-    ]);
+    const identityMat = identityMatrix(4);
+    const mat = gl.getUniformLocation(program, "formMatrix");
 
     gl.useProgram(program);
     gl.uniformMatrix4fv(mat, false, identityMat)
 
-    const obj = [shape, vertices, identityMat];
-    allShape.push(obj);
-
     for(let i = 0 ; i < allShape.length ; i++ ){ 
-        let attributeLoc = gl.getAttribLocation(program, "aVertexPosition");
-        let colorLoc = gl.getUniformLocation(program, "uColor");
-        let itemSize = 2;
-
-        buff = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buff);
-        gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-
-        gl.enableVertexAttribArray(attributeLoc);
-        gl.vertexAttribPointer(attributeLoc, itemSize, gl.FLOAT, false, 0, 0);
-        gl.uniform4fv(colorLoc, [1, 0.0, 0.0, 1.0]);
-
-        if(vertices.length == 8) { // square
-            gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
-        }
-        else if(vertices.length == 4) { // line
-            gl.lineWidth(1.0);
-            gl.drawArrays(gl.LINES, 0, 2);
-        }
+        allShape[i].draw();
     }
+
 }

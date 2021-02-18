@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css"/>
+        <script id = "vertex" type = "x-shader/x-vertex">
+            attribute vec4 aVertexPosition;
+            
+            void main() {
+                gl_Position = aVertexPosition;
+            }
+        </script>
+
+        <script id = "fragment" type = "x-shader/x-fragment">
+            #ifdef GL_ES
+            precision highp float;
+            #endif
+
+            uniform vec4 uColor;
+
+            void main() {
+                gl_FragColor = uColor;
+            }
+        </script>
+
+        <script type = "text/javascript" src= "function.js"></script>
+    </head>
+
+    <body>
+        <button onClick = "createRectangle()">Square</button>
+        <canvas id = "draw-shape" width = "500" height = "500"></canvas>
+    </body>
+</html>

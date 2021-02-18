@@ -25,8 +25,16 @@
 
     <body onload="start()">
         <div class = "container">
-            <button id = "sq-button">Square</button>
+            <button type = "button" id = "sq-button">Square</button>
             <button type = "button" id = "line-button">Line</button>
+            <button type = "button" id = "triangle-button">Triangle</button>
+            <button type = "button" id = "polygon-button">Regular Polygon</button>
+        </div>
+
+        <div id="polygon-form" style="display: none;">
+            Number of vertices:
+            <input id="polygon-input" type="text" name="tesuto">
+            <input id="polygon-btn-submit" type="submit" value="Tambah Polygon">
         </div>
 
         <div class = "container center">

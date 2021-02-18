@@ -17,6 +17,7 @@ class GLShape {
         let numVertices = this.numVertices;
         let program = this.webglProgram;
 
+        // get the Float32Array representation of coord
         const vertices = initBuffer(coord);
 
         let attributeLoc = gl.getAttribLocation(program, "aVertexPosition");

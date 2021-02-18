@@ -12,6 +12,27 @@ lineButton.addEventListener('click', function() {
     addShape("line");
 })
 
+let triangleButton = document.getElementById("triangle-button");
+triangleButton.addEventListener('click', function() {
+    addShape("triangle");
+})
+
+let polygonForm = document.getElementById("polygon-form");
+let polygonInput = document.getElementById("polygon-input");
+let polygonButton = document.getElementById("polygon-button");
+let polygonButtonSubmit = document.getElementById("polygon-btn-submit");
+let btnSubmit = document.getElementById("btn-submit");
+polygonButton.addEventListener('click', function() {
+    polygonForm.style.display = 'block';
+})
+polygonButtonSubmit.addEventListener('click', function() {
+    polygonForm.style.display = 'none';
+    const numVertices = parseInt(polygonInput.value);
+    console.log(polygonInput.value);
+    console.log(numVertices);
+    addShape("polygon", numVertices);
+})
+
 function start() {
     canvas = document.getElementById("draw-shape");
     gl = canvas.getContext("experimental-webgl");
@@ -70,9 +91,9 @@ function createProg(gl, vertexId, fragmentId) {
     return program;
 }
 
-function addShape(shape) {
+function addShape(shape, numVertices=null) {
 
-    let vertices;
+    let vertices = [];
     if (shape === "square") {
         vertices = [
             -0.5, -0.5,
@@ -87,6 +108,22 @@ function addShape(shape) {
             0.5, 0.5
         ];
     }
+    if (shape === "triangle") {
+        vertices = [
+            -1.0, -1.0,
+            +1.0, +1.0,
+            +1.0, -1.0
+        ];
+    }
+    if (shape === "polygon") {
+        console.log("lululu", numVertices);
+        for (let i = 0; i < numVertices; i++) {
+            vertices.push(0.5 * Math.cos(2 * Math.PI * i / numVertices));
+            vertices.push(0.5 * Math.sin(2 * Math.PI * i / numVertices));
+        }
+    }
+
+    console.log("debug", vertices);
 
     const obj = new GLShape(vertices, gl, program);
     allShape.push(obj);

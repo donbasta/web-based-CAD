@@ -1,5 +1,3 @@
-let shapeTable = document.getElementById("shape-table");
-
 let colorForm = document.getElementById("color-form");
 let colorDropdown = document.getElementById("color-dropdown");
 

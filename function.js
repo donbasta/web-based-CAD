@@ -4,52 +4,19 @@ const allShape = [];
 let vertices = [];
 let vertexX = -999;
 let vertexY = -999;
-let shape = "";
-let num = 0;
+let shape;
+let num;
+let color;
 
-let sqButton = document.getElementById("square-button");
-let sqForm = document.getElementById("square-form")
-let sqInput = document.getElementById("square-input");
-let sqButtonSubmit = document.getElementById("square-btn-submit");
-sqButton.addEventListener('click', function() {
-    sqForm.style.display = 'block';
-})
-sqButtonSubmit.addEventListener('click', function() {
-    sqForm.style.display = 'none';
-    const length = parseFloat(sqInput.value);
-    shape = "sq";
-    num = length;
-    
-})
-
-let lineButton = document.getElementById("line-button");
-lineButton.addEventListener('click', function() {
-    shape = "line";
-    num = 0;
-})
-
-let polygonForm = document.getElementById("polygon-form");
-let polygonInput = document.getElementById("polygon-input");
-let polygonButton = document.getElementById("polygon-button");
-let polygonButtonSubmit = document.getElementById("polygon-btn-submit");
-let btnSubmit = document.getElementById("btn-submit");
-polygonButton.addEventListener('click', function() {
-    polygonForm.style.display = 'block';
-})
-polygonButtonSubmit.addEventListener('click', function() {
-    polygonForm.style.display = 'none';
-    const numVertices = parseInt(polygonInput.value);
-    shape = "polygon";
-    num = numVertices;
-})
+let shapeTable = document.getElementById("shape-table");
 
 let canvasElement = document.getElementById("draw-shape");
-canvasElement.addEventListener("mousedown", function(e) {
+canvasElement.addEventListener("mousedown", (e) => {
     getMouseLocation(canvasElement, e);
     addShape(shape, num);
 });
 
-function getMouseLocation(canvasElement, event) { // get the click location
+const getMouseLocation = (canvasElement, event) => { // get the click location
     let clientRect = canvasElement.getBoundingClientRect();
     let posX = event.clientX - clientRect.left;
     let posY = event.clientY - clientRect.top;
@@ -60,7 +27,7 @@ function getMouseLocation(canvasElement, event) { // get the click location
     vertexY = y;
 }
 
-function start() {
+const start = () => {
     canvas = document.getElementById("draw-shape");
     gl = canvas.getContext("experimental-webgl");
     gl.viewport(0, 0, canvas.width, canvas.height);
@@ -70,7 +37,7 @@ function start() {
     program = createProg(gl, "vertex", "fragment");
 }
 
-function compileShader(gl, shader, shaderType) {
+const compileShader = (gl, shader, shaderType) => {
     let s = gl.createShader(shaderType);
 
     gl.shaderSource(s, shader);
@@ -82,7 +49,7 @@ function compileShader(gl, shader, shaderType) {
     return s;
 }
 
-function initShader(gl, shaderId) {
+const initShader = (gl, shaderId) => {
     let shader = document.getElementById(shaderId);
     if (!shader) {
         throw("Unknown script element " + scriptId);
@@ -102,7 +69,7 @@ function initShader(gl, shaderId) {
     return compileShader(gl, shader.text, shaderType);
 }
 
-function createProg(gl, vertexId, fragmentId) {
+const createProg = (gl, vertexId, fragmentId) => {
     let vertexShader = initShader(gl, vertexId);
     let fragmentShader = initShader(gl, fragmentId);
 
@@ -118,7 +85,7 @@ function createProg(gl, vertexId, fragmentId) {
     return program;
 }
 
-function addShape(shape, num) { // num = number of vertices/length, based on shape
+const addShape = (shape, num) => { // num = number of vertices/length, based on shape
     // Initialize old value
     let oldX = -999;
     let oldY = -999;
@@ -131,7 +98,7 @@ function addShape(shape, num) { // num = number of vertices/length, based on sha
         }
 
         if(vertices.length == 4){ // if all the points already collected
-            const obj = new GLShape(vertices, gl, program);
+            const obj = new GLShape(vertices, gl, program, color);
             allShape.push(obj);
             vertices = [];
             render();
@@ -147,7 +114,7 @@ function addShape(shape, num) { // num = number of vertices/length, based on sha
                 vertexX, vertexY-num
             ];
             
-            const obj = new GLShape(vertices, gl, program);
+            const obj = new GLShape(vertices, gl, program, color);
             allShape.push(obj);
             vertices = [];
             render();
@@ -161,7 +128,7 @@ function addShape(shape, num) { // num = number of vertices/length, based on sha
         }
 
         if(vertices.length == num*2) { // if all the points already collected
-            const obj = new GLShape(vertices, gl, program);
+            const obj = new GLShape(vertices, gl, program, color);
             allShape.push(obj);
             vertices = [];
             render();
@@ -169,7 +136,7 @@ function addShape(shape, num) { // num = number of vertices/length, based on sha
     }
 }
 
-function render() {
+const render = () => {
     gl.clearColor(0.8, 0.8, 0.8, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -179,7 +146,31 @@ function render() {
     gl.useProgram(program);
     gl.uniformMatrix4fv(mat, false, identityMat)
 
-    for(let i = 0 ; i < allShape.length ; i++ ){ 
+    for (let i = 0 ; i < allShape.length ; i++) { 
         allShape[i].draw();
     }
+
+    showAllShapesInTable();
+}
+
+const showAllShapesInTable = () => {
+    const rowCount = shapeTable.rows.length;
+    for (let i = rowCount - 1; i > 0; i--) {
+        shapeTable.deleteRow(i);
+    }
+    for (let i  = 0; i < allShape.length; i++) {
+        addShapeToTable(i, allShape[i]);
+    }
+}
+
+const addShapeToTable = (i, glShape) => {
+    let row = shapeTable.insertRow();
+    let cell_1 = row.insertCell(0);
+    let cell_2 = row.insertCell(1);
+    let cell_3 = row.insertCell(2);
+    let cell_4 = row.insertCell(3);
+    cell_1.innerHTML = i + 1;
+    cell_2.innerHTML = numVerticesToShape(glShape.numVertices);
+    cell_3.innerHTML = glShape.color;
+    cell_4.innerHTML = glShape.id;
 }

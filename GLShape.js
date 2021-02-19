@@ -1,4 +1,4 @@
-function initBuffer(coordinates) {
+const initBuffer = (coordinates) => {
     return new Float32Array(coordinates);
 };
 
@@ -42,4 +42,5 @@ class GLShape {
             gl.drawArrays(gl.LINES, 0, numVertices);
         }
     }
+
 }

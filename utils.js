@@ -11,28 +11,28 @@ const identityMatrix = (size) => {
 };
 
 const getColorRGB = (color) => {
-    if (color === "RED") {
+    if (color === "red") {
         return [255, 0, 0];
     }
-    if (color === "GREEN") {
+    if (color === "green") {
         return [0, 255, 0];
     }
-    if (color === "BLUE") {
+    if (color === "blue") {
         return [0, 0, 255];
     }
-    if (color === "YELLOW") {
+    if (color === "yellow") {
         return [255, 255, 0];
     }
-    if (color === "CYAN") {
+    if (color === "cyan") {
         return [0, 255, 255];
     }
-    if (color === "MAGENTA") {
+    if (color === "magenta") {
         return [255, 0, 255];
     }
-    if (color === "BLACK") {
-        return [255, 0, 255];
+    if (color === "black") {
+        return [0, 0, 0];
     }
-    if (color === "WHITE") {
-        return [255, 0, 255];
+    if (color === "white") {
+        return [255, 255, 255];
     }
 }

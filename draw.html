@@ -30,6 +30,20 @@
             <button type = "button" id = "polygon-button">Regular Polygon</button>
         </div>
 
+        <div id="color-form" style="display: none;">
+            Choose color:
+            <select name="colors" id="color-dropdown">
+                <option value="red">Red</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="cyan">Cyan</option>
+                <option value="magenta">Magenta</option>
+                <option value="yellow">Yellow</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+            </select>
+        </div>
+
         <div id="square-form" style="display: none;">
             Length:
             <input id="square-input" type="text" name="length">
@@ -38,16 +52,34 @@
 
         <div id="polygon-form" style="display: none;">
             Number of vertices:
-            <input id="polygon-input" type="text" name="tesuto">
+            <input id="polygon-input" type="text" name="num-vertices">
             <input id="polygon-btn-submit" type="submit" value="Add Polygon">
         </div>
 
         <div class = "container center">
             <canvas id = "draw-shape" width = "500" height = "500"></canvas>
         </div>
+
+        <table id="shape-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Shape Type</th>
+                    <th>Shape Name</th>
+                    <th>Color</th>
+                    <th>ID</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
     </body>
     
     <script type = "text/javascript" src= "function.js"></script>
     <script type = "text/javascript" src= "GLShape.js"></script>
     <script type = "text/javascript" src= "utils.js"></script>
+    <script type = "text/javascript" src= "dom.js"></script>
+    <script type = "text/javascript" src= "change.js"></script>
+    
 </html>

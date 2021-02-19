@@ -4,10 +4,9 @@ const allShape = [];
 let vertices = [];
 let vertexX = -999;
 let vertexY = -999;
-let shape;
-let num;
-let color = "black";
-
+let shape = "polygon";
+let num = 4;
+let color = "red";
 let shapeTable = document.getElementById("shape-table");
 
 let canvasElement = document.getElementById("draw-shape");
@@ -98,14 +97,14 @@ const addShape = (shape, num) => { // num = number of vertices/length, based on 
         }
 
         if(vertices.length == 4){ // if all the points already collected
-            const obj = new GLShape(vertices, gl, program, color, shape);
+            const obj = new GLShape(vertices, gl, program, color);
             allShape.push(obj);
             vertices = [];
             render();
         }
     }
 
-    else if(shape === "square") {
+    else if(shape === "sq") {
         if(oldX != vertexX && oldY != vertexY) {
             vertices = [
                 vertexX, vertexY, 
@@ -114,7 +113,7 @@ const addShape = (shape, num) => { // num = number of vertices/length, based on 
                 vertexX, vertexY-num
             ];
             
-            const obj = new GLShape(vertices, gl, program, color, shape);
+            const obj = new GLShape(vertices, gl, program, color);
             allShape.push(obj);
             vertices = [];
             render();
@@ -128,7 +127,7 @@ const addShape = (shape, num) => { // num = number of vertices/length, based on 
         }
 
         if(vertices.length == num*2) { // if all the points already collected
-            const obj = new GLShape(vertices, gl, program, color, shape);
+            const obj = new GLShape(vertices, gl, program, color);
             allShape.push(obj);
             vertices = [];
             render();
@@ -150,8 +149,6 @@ const render = () => {
         allShape[i].draw();
     }
 
-    console.log("debug", allShape);
-
     showAllShapesInTable();
 }
 
@@ -171,41 +168,8 @@ const addShapeToTable = (i, glShape) => {
     let cell_2 = row.insertCell(1);
     let cell_3 = row.insertCell(2);
     let cell_4 = row.insertCell(3);
-    let cell_5 = row.insertCell(4);
-    let cell_6 = row.insertCell(5);
-    let cell_7 = row.insertCell(6);
-
     cell_1.innerHTML = i + 1;
-    cell_2.innerHTML = glShape.type;
-    cell_3.innerHTML = numVerticesToShape(glShape.numVertices);
-    cell_4.innerHTML = glShape.color;
-    cell_5.innerHTML = glShape.id;
-
-    let btn, input;
-
-    switch (glShape.type) {
-        case 'line':
-            btn = changeLengthOfLineButton(glShape.id);
-            input = document.createElement('input');
-            input.id = `change-input-${glShape.id}`;
-            cell_6.appendChild(input);
-            cell_7.appendChild(btn);
-            break;
-        case 'square':
-            btn = changeSizeOfSquareButton(glShape.id);
-            input = document.createElement('input');
-            input.id = `change-input-${glShape.id}`
-            cell_6.appendChild(input);
-            cell_7.appendChild(btn);
-            break;
-        case 'polygon':
-            btn = changeColorOfPolygonButton(glShape.id);
-            input = document.createElement('input');
-            input.id = `change-input-${glShape.id}`
-            cell_6.appendChild(input);
-            cell_7.appendChild(btn);
-            break;
-        default:
-      }
-      
+    cell_2.innerHTML = numVerticesToShape(glShape.numVertices);
+    cell_3.innerHTML = glShape.color;
+    cell_4.innerHTML = glShape.id;
 }

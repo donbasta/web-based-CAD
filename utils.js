@@ -36,3 +36,23 @@ const getColorRGB = (color) => {
         return [255, 255, 255];
     }
 }
+
+const numVertices_to_shape = {
+    2 : "line",
+    3 : "triangle",
+    4 : "quadrilateral",
+    5 : "pentagon",
+    6 : "hexagon",
+    7 : "heptagon",
+    8 : "octagon",
+    9 : "nonagon",
+    10 : "decagon"
+}
+
+const numVerticesToShape = (n) => {
+    if (n <= 10) {
+        return numVertices_to_shape[n];
+    } else {
+        return `${n}-gon`;
+    }
+} 

@@ -4,11 +4,20 @@ const initBuffer = (coordinates) => {
 
 class GLShape {
 
+    static counter = 1;
+
+    static addCounter() {
+        this.counter++;
+    }
+
     constructor(coordinates, gl, program, color) {
+        this.id = this.constructor.counter;
+        this.constructor.addCounter();
         this.numVertices = coordinates.length / 2;
         this.coordinates = coordinates;
         this.webglRenderingContext = gl;
         this.webglProgram = program;
+        this.color = color;
         this.colorRGB = getColorRGB(color);
     }
 

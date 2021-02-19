@@ -150,8 +150,6 @@ const render = () => {
         allShape[i].draw();
     }
 
-    console.log("debug", allShape);
-
     showAllShapesInTable();
 }
 

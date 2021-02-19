@@ -10,7 +10,7 @@ class GLShape {
         this.counter++;
     }
 
-    constructor(coordinates, gl, program, color) {
+    constructor(coordinates, gl, program, color, type) {
         this.id = this.constructor.counter;
         this.constructor.addCounter();
         this.numVertices = coordinates.length / 2;
@@ -19,6 +19,41 @@ class GLShape {
         this.webglProgram = program;
         this.color = color;
         this.colorRGB = getColorRGB(color);
+        this.type = type;
+    }
+
+    setColor(color) {
+        this.color = color;
+        this.colorRGB = getColorRGB(color);
+    }
+
+    setCoordinates(coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    //for square only, should be implemented as child class but whatever
+    setSize(length) {
+        const centerX = (this.coordinates[0] + this.coordinates[2] + this.coordinates[4] + this.coordinates[6]) / 4.0;
+        const centerY = (this.coordinates[1] + this.coordinates[3] + this.coordinates[5] + this.coordinates[7]) / 4.0;
+        const newCoordinates = [
+            centerX + length / 2.0, centerY + length / 2.0,
+            centerX - length / 2.0, centerY + length / 2.0,
+            centerX - length / 2.0, centerY - length / 2.0,
+            centerX + length / 2.0, centerY - length / 2.0
+        ]
+        this.coordinates = newCoordinates;
+    }
+
+    //for line only, should be implemented as child class but whatever
+    setLength(length) {
+        const currentLength = getLength(this.coordinates);
+        const newX = this.coordinates[0] + (length / currentLength) * (this.coordinates[2] - this.coordinates[0]);
+        const newY = this.coordinates[1] + (length / currentLength) * (this.coordinates[3] - this.coordinates[1]);
+        const newCoordinates = [
+            this.coordinates[0], this.coordinates[1],
+            newX, newY
+        ]
+        this.coordinates = newCoordinates;
     }
 
     draw() {

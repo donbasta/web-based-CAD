@@ -14,7 +14,7 @@ sqButtonSubmit.addEventListener('click', () => {
     sqForm.style.display = 'none';
     const length = parseFloat(sqInput.value);
     color = colorDropdown.value;
-    shape = "sq";
+    shape = "square";
     num = length;
 })
 

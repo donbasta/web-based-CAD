@@ -10,6 +10,11 @@ const identityMatrix = (size) => {
     return new Float32Array(identityMat);
 };
 
+const getLength = (coordinates) => {
+    const [a, b, c, d] = coordinates;
+    return Math.sqrt((a - c) * (a - c) + (b - d) * (b - d));
+}
+
 const getColorRGB = (color) => {
     if (color === "red") {
         return [255, 0, 0];

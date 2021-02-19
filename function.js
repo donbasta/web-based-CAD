@@ -1,20 +1,31 @@
 let gl;
 let program;
 const allShape = [];
+let vertices = [];
+let vertexX = -999;
+let vertexY = -999;
+let shape = "";
+let num = 0;
 
-let sqButton = document.getElementById("sq-button");
+let sqButton = document.getElementById("square-button");
+let sqForm = document.getElementById("square-form")
+let sqInput = document.getElementById("square-input");
+let sqButtonSubmit = document.getElementById("square-btn-submit");
 sqButton.addEventListener('click', function() {
-    addShape("square");
+    sqForm.style.display = 'block';
+})
+sqButtonSubmit.addEventListener('click', function() {
+    sqForm.style.display = 'none';
+    const length = parseFloat(sqInput.value);
+    shape = "sq";
+    num = length;
+    
 })
 
 let lineButton = document.getElementById("line-button");
 lineButton.addEventListener('click', function() {
-    addShape("line");
-})
-
-let triangleButton = document.getElementById("triangle-button");
-triangleButton.addEventListener('click', function() {
-    addShape("triangle");
+    shape = "line";
+    num = 0;
 })
 
 let polygonForm = document.getElementById("polygon-form");
@@ -28,14 +39,32 @@ polygonButton.addEventListener('click', function() {
 polygonButtonSubmit.addEventListener('click', function() {
     polygonForm.style.display = 'none';
     const numVertices = parseInt(polygonInput.value);
-    addShape("polygon", numVertices);
+    shape = "polygon";
+    num = numVertices;
 })
+
+let canvasElement = document.getElementById("draw-shape");
+canvasElement.addEventListener("mousedown", function(e) {
+    getMouseLocation(canvasElement, e);
+    addShape(shape, num);
+});
+
+function getMouseLocation(canvasElement, event) { // get the click location
+    let clientRect = canvasElement.getBoundingClientRect();
+    let posX = event.clientX - clientRect.left;
+    let posY = event.clientY - clientRect.top;
+
+    let x = posX / canvasElement.width * 2 -1;
+    let y = posY / canvasElement.height * (-2) + 1;
+    vertexX = x;
+    vertexY = y;
+}
 
 function start() {
     canvas = document.getElementById("draw-shape");
     gl = canvas.getContext("experimental-webgl");
     gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.clearColor(0, 0, 0, 1);
+    gl.clearColor(0.8, 0.8, 0.8, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     program = createProg(gl, "vertex", "fragment");
@@ -89,46 +118,59 @@ function createProg(gl, vertexId, fragmentId) {
     return program;
 }
 
-function addShape(shape, numVertices=null) {
+function addShape(shape, num) { // num = number of vertices/length, based on shape
+    // Initialize old value
+    let oldX = -999;
+    let oldY = -999;
 
-    let vertices = [];
-    if (shape === "square") {
-        vertices = [
-            -0.5, -0.5,
-            +0.5, -0.5,
-            +0.5, +0.5,
-            -0.5, +0.5
-        ];
-    }
-    if (shape === "line") {
-        vertices = [
-            -0.5, 0.5,
-            0.5, 0.5
-        ];
-    }
-    if (shape === "triangle") {
-        vertices = [
-            -1.0, -1.0,
-            +1.0, +1.0,
-            +1.0, -1.0
-        ];
-    }
-    if (shape === "polygon") {
-        for (let i = 0; i < numVertices; i++) {
-            vertices.push(0.5 * Math.cos(2 * Math.PI * i / numVertices));
-            vertices.push(0.5 * Math.sin(2 * Math.PI * i / numVertices));
+    if(shape === "line") {
+        if(vertices.length != 4 || oldX != vertexX || oldY != vertexY) { // if the point is different one and vertices not complete
+            vertices = [...vertices, vertexX, vertexY];
+            oldX = vertexX;
+            oldY = vertexY;
+        }
+
+        if(vertices.length == 4){ // if all the points already collected
+            const obj = new GLShape(vertices, gl, program);
+            allShape.push(obj);
+            vertices = [];
+            render();
         }
     }
 
-    const obj = new GLShape(vertices, gl, program);
-    allShape.push(obj);
+    else if(shape === "sq") {
+        if(oldX != vertexX && oldY != vertexY) {
+            vertices = [
+                vertexX, vertexY, 
+                vertexX+num, vertexY,
+                vertexX+num, vertexY-num,
+                vertexX, vertexY-num
+            ];
+            
+            const obj = new GLShape(vertices, gl, program);
+            allShape.push(obj);
+            vertices = [];
+            render();
+        }
+    }
+    else if(shape === "polygon") {
+        if(vertices.length != num*2 || oldX != vertexX || oldY != vertexY) { // if the point is different one and vertices not complete
+            vertices = [...vertices, vertexX, vertexY];
+            oldX = vertexX;
+            oldY = vertexY;
+        }
 
-    render();
+        if(vertices.length == num*2) { // if all the points already collected
+            const obj = new GLShape(vertices, gl, program);
+            allShape.push(obj);
+            vertices = [];
+            render();
+        }
+    }
 }
 
 function render() {
-    
-    gl.clearColor(0, 0, 0, 1);
+    gl.clearColor(0.8, 0.8, 0.8, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     const identityMat = identityMatrix(4);
@@ -140,5 +182,4 @@ function render() {
     for(let i = 0 ; i < allShape.length ; i++ ){ 
         allShape[i].draw();
     }
-
 }

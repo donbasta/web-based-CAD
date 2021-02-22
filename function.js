@@ -207,3 +207,68 @@ const addShapeToTable = (i, glShape) => {
       }
       
 }
+
+
+const saveShapes = () => {
+    var doc = "data:text/csv;charset=utf-8,"
+    for (let i  = 0; i < allShape.length; i++) {
+        doc += ShapeToString(allShape[i]) + "\r\n";
+    }   
+    var URI = encodeURI(doc);
+    var link = document.createElement('a');
+    link.setAttribute("href",URI);
+    link.setAttribute("download","tes.csv");
+    document.body.appendChild(link);
+    link.click();
+}
+
+const ShapeToString = (shape) => {this.id = this.constructor.counter;
+    let stringarr = [
+        shape.id,
+        shape.type,
+        shape.color,
+        shape.colorRGB[0],
+        shape.colorRGB[1],
+        shape.colorRGB[2],
+        shape.numVertices,
+        shape.coordinates[0],
+        shape.coordinates[1],
+        shape.coordinates[2],
+        shape.coordinates[3]
+    ]
+    return stringarr.join(',');
+}
+
+const loadShapes = (text) => {
+    while(allShape.length > 0) allShape.length = 0
+    var rows = text.split('\r\n');
+    console.log(rows)
+    for (var i = 0; i < rows.length-1; i++){
+        var line = rows[i].split(',');
+        var coordinates = [parseFloat(line[7]),parseFloat(line[8]),parseFloat(line[9]),parseFloat(line[10])];
+        var shape = new GLShape(coordinates, gl, program, line[2], line[1]);
+        allShape[i] = shape;
+    }
+    render();
+}
+
+
+const load = () => {
+    var filename = document.getElementById('load-filename');
+    // filename = filename.replace(/.*[\/\\]/, '');
+    console.log(filename.files);
+    var fileReader = new FileReader()
+    fileReader.onloadend = () => (loadShapes(fileReader.result))
+    fileReader.readAsText(filename.files[0])
+    // loadFile(filename);
+}
+
+const checkLoad = () => {
+    var fn = document.getElementById('load-filename');
+    var butt = document.getElementById('load-button');
+    if (fn.value != ""){
+        butt.disabled = false;
+    }else{
+        butt.disabled = true;
+    }
+}

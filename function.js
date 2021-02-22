@@ -104,7 +104,6 @@ const addShape = (shape, num) => { // num = number of vertices/length, based on 
             render();
         }
     }
-
     else if(shape === "square") {
         if(oldX != vertexX && oldY != vertexY) {
             vertices = [
@@ -186,13 +185,15 @@ const addShapeToTable = (i, glShape) => {
             btn = changeLengthOfLineButton(glShape.id);
             input = document.createElement('input');
             input.id = `change-input-${glShape.id}`;
+            input.placeholder = "insert new length here";
             cell_6.appendChild(input);
             cell_7.appendChild(btn);
             break;
         case 'square':
             btn = changeSizeOfSquareButton(glShape.id);
             input = document.createElement('input');
-            input.id = `change-input-${glShape.id}`
+            input.id = `change-input-${glShape.id}`;
+            input.placeholder = "insert new size here";
             cell_6.appendChild(input);
             cell_7.appendChild(btn);
             break;
@@ -200,10 +201,11 @@ const addShapeToTable = (i, glShape) => {
             btn = changeColorOfPolygonButton(glShape.id);
             input = document.createElement('input');
             input.id = `change-input-${glShape.id}`
+            input.placeholder = "insert new color here";
             cell_6.appendChild(input);
             cell_7.appendChild(btn);
             break;
         default:
-      }
+    }
       
 }

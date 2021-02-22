@@ -25,7 +25,6 @@ const changeColorOfPolygonButton = (id) => {
     btn.innerHTML = "Change Color of the Polygon";
     btn.addEventListener('click', () => {
         const color = document.getElementById(`change-input-${id}`).value;
-        console.log("warna", color);
         changeColorOfPolygonWithID(id, color);
         render();
     })

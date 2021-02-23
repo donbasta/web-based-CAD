@@ -231,12 +231,11 @@ const ShapeToString = (shape) => {this.id = this.constructor.counter;
         shape.colorRGB[0],
         shape.colorRGB[1],
         shape.colorRGB[2],
-        shape.numVertices,
-        shape.coordinates[0],
-        shape.coordinates[1],
-        shape.coordinates[2],
-        shape.coordinates[3]
+        shape.numVertices
     ]
+    for (var i = 0; i < shape.coordinates.length; i++){
+        stringarr.push(shape.coordinates[i]);
+    }
     return stringarr.join(',');
 }
 
@@ -246,7 +245,11 @@ const loadShapes = (text) => {
     console.log(rows)
     for (var i = 0; i < rows.length-1; i++){
         var line = rows[i].split(',');
-        var coordinates = [parseFloat(line[7]),parseFloat(line[8]),parseFloat(line[9]),parseFloat(line[10])];
+        var coordinates = [];
+        // var coordinates = [parseFloat(line[7]),parseFloat(line[8]),parseFloat(line[9]),parseFloat(line[10])];
+        for (var j = 7; j < line.length; j++){
+            coordinates.push(parseFloat(line[j]))
+        }
         var shape = new GLShape(coordinates, gl, program, line[2], line[1]);
         allShape[i] = shape;
     }

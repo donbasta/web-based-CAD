@@ -51,8 +51,8 @@ const checkClosestPoint = () => {
         if (allShape[clickedPolygon].shape === "square") {
             isPersegiClicked.status = {
                 status: true,
-                idx = clickedVertexIdx / 2
-            }
+                idx: clickedVertexIdx / 2
+            };
         }
         render(closestPoint);
     }

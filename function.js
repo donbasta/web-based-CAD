@@ -184,7 +184,7 @@ const addShapeToTable = (i, glShape) => {
     cell_4.innerHTML = glShape.color;
     cell_5.innerHTML = glShape.id;
 
-    let btn, input;
+    let btn, input, option;
 
     switch (glShape.type) {
         case 'line':
@@ -204,11 +204,26 @@ const addShapeToTable = (i, glShape) => {
             cell_7.appendChild(btn);
             break;
         case 'polygon':
+            // btn = changeColorOfPolygonButton(glShape.id);
+            // input = document.createElement('input');
+            // input.id = `change-input-${glShape.id}`
+            // input.placeholder = "insert new color here";
+            // cell_6.appendChild(input);
+            // cell_7.appendChild(btn);
             btn = changeColorOfPolygonButton(glShape.id);
-            input = document.createElement('input');
-            input.id = `change-input-${glShape.id}`
-            input.placeholder = "insert new color here";
-            cell_6.appendChild(input);
+            select = document.createElement('select');
+            select.id = `change-input-${glShape.id}`
+            select.placeholder = "choose new color here";
+            for (let i = 0; i < COLORS.length; i++) {
+                let Opt = new Option(COLORS[i], COLORS[i]);
+                if (COLORS[i] === glShape.color) {
+                    Opt.defaultSelected = true;
+                } else {
+                    Opt.defaultSelected = false;
+                }
+                select.appendChild(Opt);
+            }
+            cell_6.appendChild(select);
             cell_7.appendChild(btn);
             break;
         default:

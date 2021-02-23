@@ -8,7 +8,15 @@
 }
 
 table, th, td {
-    border: 1px solid black;
+    border: 0px solid black;
+}
+
+th {
+    background-color: rgb(213, 154, 149);
+}
+
+td {
+    background-color: rgb(253, 214, 211);
 }
 
 .master-container {

@@ -59,6 +59,22 @@ class GLShape {
         this.coordinates = newCoordinates;
     }
 
+    toString() {
+        let stringarr = [
+            this.id,
+            this.type,
+            this.color,
+            this.colorRGB[0],
+            this.colorRGB[1],
+            this.colorRGB[2],
+            this.numVertices
+        ]
+        for (let i = 0; i < this.coordinates.length; i++){
+            stringarr.push(this.coordinates[i]);
+        }
+        return stringarr.join(',');
+    }
+
     draw(clickedPointIdx=null) {
         let gl = this.webglRenderingContext;
         let coord = this.coordinates;

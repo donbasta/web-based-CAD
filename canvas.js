@@ -1,7 +1,7 @@
-//Get canvas DOM
+// Get canvas DOM
 let canvasElement = document.getElementById("draw-shape");
 
-//Add mousedown event for interactive shape drawing
+// Add mousedown event for interactive shape drawing
 canvasElement.addEventListener("mousedown", (e) => {
     getMouseLocation(canvasElement, e);
     if (isDrawing) {
@@ -11,12 +11,16 @@ canvasElement.addEventListener("mousedown", (e) => {
     }
 });
 
-//Add double click event to stop dragging
+// Add double click event to stop dragging
 canvasElement.addEventListener("dblclick", (e) => {
     isDragging = false;
+    isPersegiClicked = {
+        status: false,
+        idx: null
+    }
 })
 
-//Add mousemove event to drag points when isDragging flag is true, re-render every move
+// Add mousemove event to drag points when isDragging flag is true, re-render every move
 canvasElement.addEventListener("mousemove", (e) => {
     getMouseLocation(canvasElement, e);
     if (isDragging) {
@@ -44,6 +48,12 @@ const checkClosestPoint = () => {
         clickedPolygon = closestPoint[0];
         clickedVertexIdx = closestPoint[1];
         isDragging = true;
+        if (allShape[clickedPolygon].shape === "square") {
+            isPersegiClicked.status = {
+                status: true,
+                idx = clickedVertexIdx / 2
+            }
+        }
         render(closestPoint);
     }
 }

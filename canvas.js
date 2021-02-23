@@ -1,9 +1,30 @@
+//Get canvas DOM
+let canvasElement = document.getElementById("draw-shape");
+
+//Add mousedown event for interactive shape drawing
 canvasElement.addEventListener("mousedown", (e) => {
+    getMouseLocation(canvasElement, e);
     if (isDrawing) {
-        getMouseLocation(canvasElement, e);
         addShape(shape, num);
+    } else {
+        checkClosestPoint();
     }
 });
+
+//Add double click event to stop dragging
+canvasElement.addEventListener("dblclick", (e) => {
+    isDragging = false;
+})
+
+//Add mousemove event to drag points when isDragging flag is true, re-render every move
+canvasElement.addEventListener("mousemove", (e) => {
+    getMouseLocation(canvasElement, e);
+    if (isDragging) {
+        allShape[clickedPolygon].coordinates[clickedVertexIdx] = vertexX;
+        allShape[clickedPolygon].coordinates[clickedVertexIdx + 1] = vertexY;
+        render();
+    }
+})
 
 const checkClosestPoint = () => {
     let closestPoint = [-999,-999];
@@ -24,6 +45,5 @@ const checkClosestPoint = () => {
         clickedVertexIdx = closestPoint[1];
         isDragging = true;
         render(closestPoint);
-        //ganti warna titik closestPoint ini
     }
 }

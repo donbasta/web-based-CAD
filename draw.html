@@ -30,7 +30,7 @@
                 <div class = "container">
                     <button type = "button" id = "square-button">Square</button>
                     <button type = "button" id = "line-button">Line</button>
-                    <button type = "button" id = "polygon-button">Regular Polygon</button>
+                    <button type = "button" id = "polygon-button">Polygon</button>
                     <button type = "button" id = "save-button" onclick="saveShapes()">Save</button>
                     <input type = "file" id = "load-filename" onchange="checkLoad()" multiple/>
                     <button type = "button" id = "load-button" onclick="load()" disabled="true">Load</button>
@@ -106,7 +106,7 @@
                             </ol>
                         <li>Draw Polygon</li>
                             <ol>
-                                <li>Choose "Regular Polygon" button</li>
+                                <li>Choose "Polygon" button</li>
                                 <li>Choose the color</li>
                                 <li>Input the length</li>
                                 <li>Choose "Add Polygon" button</li>
@@ -119,6 +119,11 @@
                         <li>Input the new property on the input box of the corresponding shape</li>
                     </ol>
                 <li>Move the vertice</li>
+                    <ol>
+                        <li>Click the vertex of a shape</li>
+                        <li>The clicked vertex will follow the cursor, stating that you enter the dragging mode</li>
+                        <li>To exit dragging mode, double click on the canvas</li>
+                    </ol>
                 <li>Save the model</li>
                     <ol>
                         <li>Choose "Save" button</li>
@@ -139,6 +144,6 @@
     <script type = "text/javascript" src= "utils.js"></script>
     <script type = "text/javascript" src= "dom.js"></script>
     <script type = "text/javascript" src= "change.js"></script>
-    <script type = "text/javascript" src= "drag.js"></script>
+    <script type = "text/javascript" src= "canvas.js"></script>
     
 </html>

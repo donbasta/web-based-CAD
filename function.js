@@ -3,32 +3,8 @@ let program;
 
 let shapeTable = document.getElementById("shape-table");
 
-let canvasElement = document.getElementById("draw-shape");
-canvasElement.addEventListener("click", (e) => {
-    getMouseLocation(canvasElement, e);
-    if (isDrawing) {
-        addShape(shape, num);
-    } else {
-        checkClosestPoint();
-    }
-});
-
-canvasElement.addEventListener("dblclick", (e) => {
-    isDragging = false;
-})
-
-let GLOBAL = 0;
-
-canvasElement.addEventListener("mousemove", (e) => {
-    getMouseLocation(canvasElement, e);
-    if (isDragging) {
-        allShape[clickedPolygon].coordinates[clickedVertexIdx] = vertexX;
-        allShape[clickedPolygon].coordinates[clickedVertexIdx + 1] = vertexY;
-        render();
-    }
-})
-
-const getMouseLocation = (canvasElement, event) => { // get the click location
+// get the click location
+const getMouseLocation = (canvasElement, event) => { 
     let clientRect = canvasElement.getBoundingClientRect();
     let posX = event.clientX - clientRect.left;
     let posY = event.clientY - clientRect.top;
@@ -97,29 +73,31 @@ const createProg = (gl, vertexId, fragmentId) => {
     return program;
 }
 
-const addShape = (shape, num) => { // num = number of vertices/length, based on shape
+// num = number of vertices/length, based on shape
+const addShape = (shape, num) => { 
     // Initialize old value
     let oldX = -999;
     let oldY = -999;
 
     if(shape === "line") {
-        if(vertices.length != 4 || oldX != vertexX || oldY != vertexY) { // if the point is different one and vertices not complete
+        // if the point is different one and vertices not complete
+        if(vertices.length != 4 || oldX != vertexX || oldY != vertexY) { 
             vertices = [...vertices, vertexX, vertexY];
             oldX = vertexX;
             oldY = vertexY;
         }
-
-        if(vertices.length == 4){ // if all the points already collected
-            isDrawing = false;
+        // if all the points already collected
+        if(vertices.length == 4){ 
             const obj = new GLShape(vertices, gl, program, color, shape);
             allShape.push(obj);
             vertices = [];
             render();
+            isDrawing = false;
         }
     }
     else if(shape === "square") {
         if(oldX != vertexX && oldY != vertexY) {
-            isDrawing = false;
+            
             vertices = [
                 vertexX, vertexY, 
                 vertexX+num, vertexY,
@@ -131,29 +109,28 @@ const addShape = (shape, num) => { // num = number of vertices/length, based on 
             allShape.push(obj);
             vertices = [];
             render();
+            isDrawing = false;
         }
     }
     else if(shape === "polygon") {
-        if(vertices.length != num*2 || oldX != vertexX || oldY != vertexY) { // if the point is different one and vertices not complete
+        // if the point is different one and vertices not complete
+        if(vertices.length != num*2 || oldX != vertexX || oldY != vertexY) { 
             vertices = [...vertices, vertexX, vertexY];
             oldX = vertexX;
             oldY = vertexY;
         }
-
-        if(vertices.length == num*2) { // if all the points already collected
-            isDrawing = false;
+        // if all the points already collected
+        if(vertices.length == num*2) { 
             const obj = new GLShape(vertices, gl, program, color, shape);
             allShape.push(obj);
             vertices = [];
             render();
+            isDrawing = false;
         }
     }
 }
 
-const render = (clicked=null) => {
-    GLOBAL += 1;
-    console.log(`masuk global ke ${GLOBAL} kali`);
-
+const render = (clickedPoint=null) => {
     gl.clearColor(0.8, 0.8, 0.8, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -164,12 +141,11 @@ const render = (clicked=null) => {
     gl.uniformMatrix4fv(mat, false, identityMat)
 
     for (let i = 0 ; i < allShape.length ; i++) { 
-        if (clicked != null && clicked[0] == i) {
-            allShape[i].draw(clicked[1]);
+        if (clickedPoint != null && clickedPoint[0] == i) {
+            allShape[i].draw(clickedPoint[1]);
         } else {
             allShape[i].draw();
         }
-        
     }
 
     showAllShapesInTable();

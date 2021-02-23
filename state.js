@@ -10,5 +10,6 @@ let clickedVertexIdx = -999;
 
 
 
+//Flag
 let isDragging = false;
 let isDrawing = false;

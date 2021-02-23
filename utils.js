@@ -1,3 +1,6 @@
+const CIRCLE = 360;
+const RADIUS = 0.01;
+
 const identityMatrix = (size) => {
     identityMat = new Array(size * size);
     for (let i = 0; i < size * size; i++) {
@@ -39,6 +42,12 @@ const getColorRGB = (color) => {
     }
     if (color === "white") {
         return [255, 255, 255];
+    }
+    if (color === "point") {
+        return [255, 204, 153];
+    }
+    if (color === "point-2") {
+        return [204, 102, 0];
     }
 }
 

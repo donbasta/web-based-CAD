@@ -16,12 +16,14 @@ sqButtonSubmit.addEventListener('click', () => {
     color = colorDropdown.value;
     shape = "square";
     num = length;
+    isDrawing = true;
 })
 
 let lineButton = document.getElementById("line-button");
 lineButton.addEventListener('click', () => {
     shape = "line";
     num = 0;
+    isDrawing = true;
 })
 
 let polygonForm = document.getElementById("polygon-form");
@@ -40,4 +42,5 @@ polygonButtonSubmit.addEventListener('click', () => {
     color = colorDropdown.value;
     shape = "polygon";
     num = numVertices;
+    isDrawing = true;
 })

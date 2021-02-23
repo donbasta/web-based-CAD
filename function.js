@@ -1,20 +1,32 @@
 let gl;
 let program;
-const allShape = [];
-let vertices = [];
-let vertexX = -999;
-let vertexY = -999;
-let shape;
-let num;
-let color = "black";
 
 let shapeTable = document.getElementById("shape-table");
 
 let canvasElement = document.getElementById("draw-shape");
-canvasElement.addEventListener("mousedown", (e) => {
+canvasElement.addEventListener("click", (e) => {
     getMouseLocation(canvasElement, e);
-    addShape(shape, num);
+    if (isDrawing) {
+        addShape(shape, num);
+    } else {
+        checkClosestPoint();
+    }
 });
+
+canvasElement.addEventListener("dblclick", (e) => {
+    isDragging = false;
+})
+
+let GLOBAL = 0;
+
+canvasElement.addEventListener("mousemove", (e) => {
+    getMouseLocation(canvasElement, e);
+    if (isDragging) {
+        allShape[clickedPolygon].coordinates[clickedVertexIdx] = vertexX;
+        allShape[clickedPolygon].coordinates[clickedVertexIdx + 1] = vertexY;
+        render();
+    }
+})
 
 const getMouseLocation = (canvasElement, event) => { // get the click location
     let clientRect = canvasElement.getBoundingClientRect();
@@ -98,6 +110,7 @@ const addShape = (shape, num) => { // num = number of vertices/length, based on 
         }
 
         if(vertices.length == 4){ // if all the points already collected
+            isDrawing = false;
             const obj = new GLShape(vertices, gl, program, color, shape);
             allShape.push(obj);
             vertices = [];
@@ -106,6 +119,7 @@ const addShape = (shape, num) => { // num = number of vertices/length, based on 
     }
     else if(shape === "square") {
         if(oldX != vertexX && oldY != vertexY) {
+            isDrawing = false;
             vertices = [
                 vertexX, vertexY, 
                 vertexX+num, vertexY,
@@ -127,6 +141,7 @@ const addShape = (shape, num) => { // num = number of vertices/length, based on 
         }
 
         if(vertices.length == num*2) { // if all the points already collected
+            isDrawing = false;
             const obj = new GLShape(vertices, gl, program, color, shape);
             allShape.push(obj);
             vertices = [];
@@ -135,7 +150,10 @@ const addShape = (shape, num) => { // num = number of vertices/length, based on 
     }
 }
 
-const render = () => {
+const render = (clicked=null) => {
+    GLOBAL += 1;
+    console.log(`masuk global ke ${GLOBAL} kali`);
+
     gl.clearColor(0.8, 0.8, 0.8, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -146,7 +164,12 @@ const render = () => {
     gl.uniformMatrix4fv(mat, false, identityMat)
 
     for (let i = 0 ; i < allShape.length ; i++) { 
-        allShape[i].draw();
+        if (clicked != null && clicked[0] == i) {
+            allShape[i].draw(clicked[1]);
+        } else {
+            allShape[i].draw();
+        }
+        
     }
 
     showAllShapesInTable();

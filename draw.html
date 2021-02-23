@@ -25,59 +25,113 @@
     </head>
 
     <body onload="start()">
-        <div class = "container">
-            <button type = "button" id = "square-button">Square</button>
-            <button type = "button" id = "line-button">Line</button>
-            <button type = "button" id = "polygon-button">Regular Polygon</button>
-            <button type = "button" id = "save-button" onclick="saveShapes()">Save</button>
-            <input type = "file" id = "load-filename" onchange="checkLoad()" multiple/>
-            <button type = "button" id = "load-button" onclick="load()" disabled="true">Load</button>
+        <div class = "master-container">
+            <section class = "divider">
+                <div class = "container">
+                    <button type = "button" id = "square-button">Square</button>
+                    <button type = "button" id = "line-button">Line</button>
+                    <button type = "button" id = "polygon-button">Regular Polygon</button>
+                    <button type = "button" id = "save-button" onclick="saveShapes()">Save</button>
+                    <input type = "file" id = "load-filename" onchange="checkLoad()" multiple/>
+                    <button type = "button" id = "load-button" onclick="load()" disabled="true">Load</button>
+                </div>
+
+                <div id="color-form" style="display: none;">
+                    Choose color:
+                    <select name="colors" id="color-dropdown">
+                        <option value="red">Red</option>
+                        <option value="green">Green</option>
+                        <option value="blue">Blue</option>
+                        <option value="cyan">Cyan</option>
+                        <option value="magenta">Magenta</option>
+                        <option value="yellow">Yellow</option>
+                        <option value="black">Black</option>
+                        <option value="white">White</option>
+                    </select>
+                </div>
+
+                <div id="square-form" style="display: none;">
+                    Length:
+                    <input id="square-input" type="text" name="length">
+                    <input id="square-btn-submit" type="submit" value="Add Square">
+                </div>
+
+                <div id="polygon-form" style="display: none;">
+                    Number of vertices:
+                    <input id="polygon-input" type="text" name="num-vertices">
+                    <input id="polygon-btn-submit" type="submit" value="Add Polygon">
+                </div>
+
+                <div class = "container center">
+                    <canvas id = "draw-shape" width = "500" height = "500"></canvas>
+                </div>
+            </section>
+
+            <section class = "divider">
+                <p>Shape List</p>
+                <table id="shape-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Shape Type</th>
+                            <th>Shape Name</th>
+                            <th>Color</th>
+                            <th>ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </section>
         </div>
 
-        <div id="color-form" style="display: none;">
-            Choose color:
-            <select name="colors" id="color-dropdown">
-                <option value="red">Red</option>
-                <option value="green">Green</option>
-                <option value="blue">Blue</option>
-                <option value="cyan">Cyan</option>
-                <option value="magenta">Magenta</option>
-                <option value="yellow">Yellow</option>
-                <option value="black">Black</option>
-                <option value="white">White</option>
-            </select>
+        <div class = "help">
+            <p>Help:</p>
+            <ol type = "i">
+                <li>Draw shape</li>
+                    <ol type = "A">
+                        <li>Draw Line</li>
+                            <ol>
+                                <li>Choose "Line" button</li>
+                                <li>Choose two points by clicking on the canvas</li>
+                            </ol>
+                        <li>Draw Square</li>
+                            <ol>
+                                <li>Choose "Square" button</li>
+                                <li>Choose the color</li>
+                                <li>Input the length</li>
+                                <li>Choose "Add Square" button</li>
+                                <li>Choose one point for the square's position by clicking on the canvas</li>
+                            </ol>
+                        <li>Draw Polygon</li>
+                            <ol>
+                                <li>Choose "Regular Polygon" button</li>
+                                <li>Choose the color</li>
+                                <li>Input the length</li>
+                                <li>Choose "Add Polygon" button</li>
+                                <li>Choose the vertices as many as your input by clicking on the canvas</li>
+                            </ol>
+                    </ol>
+                <li>Change the property of the shape</li>
+                    <ol>
+                        <li>Look at the shape list</li>
+                        <li>Input the new property on the input box of the corresponding shape</li>
+                    </ol>
+                <li>Move the vertice</li>
+                <li>Save the model</li>
+                    <ol>
+                        <li>Choose "Save" button</li>
+                        <li>Download the file</li>
+                    </ol>
+                <li>Load the model</li>
+                    <ol>
+                        <li>Choose "Browse..." button</li>
+                        <li>Choose the file</li>
+                        <li>Choose "Load" button</li>
+                    </ol>
+            </ol>
         </div>
-
-        <div id="square-form" style="display: none;">
-            Length:
-            <input id="square-input" type="text" name="length">
-            <input id="square-btn-submit" type="submit" value="Add Square">
-        </div>
-
-        <div id="polygon-form" style="display: none;">
-            Number of vertices:
-            <input id="polygon-input" type="text" name="num-vertices">
-            <input id="polygon-btn-submit" type="submit" value="Add Polygon">
-        </div>
-
-        <div class = "container center">
-            <canvas id = "draw-shape" width = "500" height = "500"></canvas>
-        </div>
-
-        <table id="shape-table">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Shape Type</th>
-                    <th>Shape Name</th>
-                    <th>Color</th>
-                    <th>ID</th>
-                </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
     </body>
     
     <script type = "text/javascript" src= "function.js"></script>

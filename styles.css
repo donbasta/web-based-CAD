@@ -10,3 +10,15 @@
 table, th, td {
     border: 1px solid black;
 }
+
+.master-container {
+    display: flex;
+}
+
+.divider {
+    flex: 1;
+}
+
+.help {
+    display: block
+}

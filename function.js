@@ -204,12 +204,6 @@ const addShapeToTable = (i, glShape) => {
             cell_7.appendChild(btn);
             break;
         case 'polygon':
-            // btn = changeColorOfPolygonButton(glShape.id);
-            // input = document.createElement('input');
-            // input.id = `change-input-${glShape.id}`
-            // input.placeholder = "insert new color here";
-            // cell_6.appendChild(input);
-            // cell_7.appendChild(btn);
             btn = changeColorOfPolygonButton(glShape.id);
             select = document.createElement('select');
             select.id = `change-input-${glShape.id}`

@@ -17,6 +17,9 @@ let color;
 let clickedPolygon = -999;
 let clickedVertexIdx = -999;
 
+// flag what shape is chosen
+let chosenShape = null;
+
 // flag for drawing, dragging
 let isDragging = false;
 let isDrawing = false;

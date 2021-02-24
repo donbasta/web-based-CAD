@@ -8,7 +8,15 @@
 }
 
 table, th, td {
-    border: 1px solid black;
+    border: 0px solid black;
+}
+
+th {
+    background-color: rgb(213, 154, 149);
+}
+
+td {
+    background-color: rgb(253, 214, 211);
 }
 
 .master-container {
@@ -21,4 +29,10 @@ table, th, td {
 
 .help {
     display: block
+}
+
+.btn {
+    background-color: rgb(204, 164, 114);
+    border-radius: 10%;
+    color: black;
 }

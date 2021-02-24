@@ -59,6 +59,22 @@ class GLShape {
         this.coordinates = newCoordinates;
     }
 
+    toString() {
+        let stringarr = [
+            this.id,
+            this.type,
+            this.color,
+            this.colorRGB[0],
+            this.colorRGB[1],
+            this.colorRGB[2],
+            this.numVertices
+        ]
+        for (let i = 0; i < this.coordinates.length; i++){
+            stringarr.push(this.coordinates[i]);
+        }
+        return stringarr.join(',');
+    }
+
     draw(clickedPointIdx=null) {
         let gl = this.webglRenderingContext;
         let coord = this.coordinates;
@@ -89,28 +105,22 @@ class GLShape {
             gl.drawArrays(gl.LINES, 0, numVertices);
         }
 
+        // for non-point shape, draw the vertices as points for easier picking
         if (!this.isPoint) {
             for (let i = 0; i < coord.length; i += 2) {
                 let pX = coord[i];
                 let pY = coord[i + 1];
-                console.log(pX, pY);
                 let pointCoor = [];
                 for (let j = 0; j < CIRCLE; j++) {
                     pointCoor = [...pointCoor, pX + RADIUS * Math.cos(2*Math.PI*j/CIRCLE), pY + RADIUS * Math.sin(2*Math.PI*j/CIRCLE)];
                 }
-                console.log(pointCoor);
                 let colorPoint = "point";
                 if (clickedPointIdx != null && i === clickedPointIdx) {
                     colorPoint = "point-2";
                 }
                 const point = new this.constructor(pointCoor, gl, program, colorPoint, "point", true);
-                console.log(point);
-                console.log("dbg << dbg");
                 point.draw();
-                console.log("dbg >> dbg");
             }
         }
-
     }
-
 }

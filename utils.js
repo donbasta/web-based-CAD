@@ -1,5 +1,15 @@
 const CIRCLE = 360;
 const RADIUS = 0.01;
+const COLORS = [
+    "red",
+    "green",
+    "blue",
+    "yellow",
+    "cyan",
+    "magenta",
+    "black",
+    "white"
+];
 
 const identityMatrix = (size) => {
     identityMat = new Array(size * size);

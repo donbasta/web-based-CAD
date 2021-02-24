@@ -24,17 +24,24 @@
     </head>
 
     <body onload="start()">
+        <div class = "navbar">
+            <div class="navbar-shape">
+                <button class="btn" type = "button" id = "square-button">Square</button>
+                <button class="btn" type = "button" id = "line-button">Line</button>
+                <button class="btn" type = "button" id = "polygon-button">Polygon</button>
+            </div>
+            <div class="navbar-saveload">
+                <button class="btn" type = "button" id = "save-button" onclick="saveShapes()">Save</button>
+                <input type = "file" id = "load-filename" onchange="checkLoad()" multiple/>
+                <button type = "button" id = "load-button" onclick="load()" disabled="true">Load</button>
+            </div>
+            <div class="navbar-help">
+                <button class="btn" type = "button" id = "help-button">Help</button>
+            </div>
+        </div>
+
         <div class = "master-container">
             <section class = "divider">
-                <div class = "container">
-                    <button class="btn" type = "button" id = "square-button">Square</button>
-                    <button class="btn" type = "button" id = "line-button">Line</button>
-                    <button class="btn" type = "button" id = "polygon-button">Polygon</button>
-                    <button type = "button" id = "save-button" onclick="saveShapes()">Save</button>
-                    <input type = "file" id = "load-filename" onchange="checkLoad()" multiple/>
-                    <button type = "button" id = "load-button" onclick="load()" disabled="true">Load</button>
-                </div>
-
                 <div id="color-form" style="display: none;">
                     Choose color:
                     <select name="colors" id="color-dropdown">
@@ -49,20 +56,20 @@
                     </select>
                 </div>
 
-                <div id="square-form" style="display: none;">
+                <div class="form" id="square-form" style="display: none;">
                     Length:
                     <input id="square-input" type="text" name="length">
-                    <input id="square-btn-submit" type="submit" value="Add Square">
+                    <input class="btn" id="square-btn-submit" type="submit" value="Add Square">
                 </div>
 
-                <div id="polygon-form" style="display: none;">
+                <div class="form" id="polygon-form" style="display: none;">
                     Number of vertices:
                     <input id="polygon-input" type="text" name="num-vertices">
-                    <input id="polygon-btn-submit" type="submit" value="Add Polygon">
+                    <input class="btn" id="polygon-btn-submit" type="submit" value="Add Polygon">
                 </div>
 
-                <div id="line-form" style="display: none;">
-                    <input id="line-btn-submit" type="submit" value="Add Line">
+                <div class="form" id="line-form" style="display: none;">
+                    <input class="btn" id="line-btn-submit" type="submit" value="Add Line">
                 </div>
 
                 <div class = "container center">
@@ -71,7 +78,7 @@
             </section>
 
             <section class = "divider">
-                <p>Shape List</p>
+                <p style="font-weight: bold;">Shape List</p>
                 <table id="shape-table">
                     <thead>
                         <tr>
@@ -90,57 +97,61 @@
             </section>
         </div>
 
-        <div class = "help">
-            <p>Help:</p>
-            <ol type = "i">
-                <li>Draw shape</li>
-                    <ol type = "A">
-                        <li>Draw Line</li>
-                            <ol>
-                                <li>Choose "Line" button</li>
-                                <li>Choose two points by clicking on the canvas</li>
-                            </ol>
-                        <li>Draw Square</li>
-                            <ol>
-                                <li>Choose "Square" button</li>
-                                <li>Choose the color</li>
-                                <li>Input the length</li>
-                                <li>Choose "Add Square" button</li>
-                                <li>Choose one point for the square's position by clicking on the canvas</li>
-                            </ol>
-                        <li>Draw Polygon</li>
-                            <ol>
-                                <li>Choose "Polygon" button</li>
-                                <li>Choose the color</li>
-                                <li>Input the length</li>
-                                <li>Choose "Add Polygon" button</li>
-                                <li>Choose the vertices as many as your input by clicking on the canvas</li>
-                            </ol>
-                    </ol>
-                <li>Change the property of the shape</li>
-                    <ol>
-                        <li>Look at the shape list</li>
-                        <li>Input the new property on the input box of the corresponding shape</li>
-                    </ol>
-                <li>Move the vertice</li>
-                    <ol>
-                        <li>Click the vertex of a shape</li>
-                        <li>The clicked vertex will follow the cursor, which means you have entered the dragging mode</li>
-                        <li>To exit dragging mode, double click on the canvas</li>
-                    </ol>
-                <li>Save the model</li>
-                    <ol>
-                        <li>Choose "Save" button</li>
-                        <li>Download the file</li>
-                    </ol>
-                <li>Load the model</li>
-                    <ol>
-                        <li>Choose "Browse..." button</li>
-                        <li>Choose the file</li>
-                        <li>Choose "Load" button</li>
-                    </ol>
-            </ol>
+        <div id="help-modal" class="modal">
+            <div class="help-content">
+                <span id="close" class="close">&times;</span>
+                <p>Help:</p>
+                <ol type = "i">
+                    <li style="font-weight: bolder;">Draw shape</li>
+                        <ol type = "A">
+                            <li style="font-weight: bold;">Draw Line</li>
+                                <ol>
+                                    <li>Choose "Line" button</li>
+                                    <li>Choose two points by clicking on the canvas</li>
+                                </ol>
+                            <li style="font-weight: bolder;">Draw Square</li>
+                                <ol>
+                                    <li>Choose "Square" button</li>
+                                    <li>Choose the color</li>
+                                    <li>Input the length</li>
+                                    <li>Choose "Add Square" button</li>
+                                    <li>Choose one point for the square's position by clicking on the canvas</li>
+                                </ol>
+                            <li style="font-weight: bolder;">Draw Polygon</li>
+                                <ol>
+                                    <li>Choose "Polygon" button</li>
+                                    <li>Choose the color</li>
+                                    <li>Input the length</li>
+                                    <li>Choose "Add Polygon" button</li>
+                                    <li>Choose the vertices as many as your input by clicking on the canvas</li>
+                                </ol>
+                        </ol>
+                    <li style="font-weight: bolder;">Change the property of the shape</li>
+                        <ol>
+                            <li>Look at the shape list</li>
+                            <li>Input the new property on the input box of the corresponding shape</li>
+                        </ol>
+                    <li style="font-weight: bolder;">Move the vertex</li>
+                        <ol>
+                            <li>Click the vertex of a shape</li>
+                            <li>The clicked vertex will follow the cursor, which means you have entered the dragging mode</li>
+                            <li>To exit dragging mode, double click on the canvas</li>
+                        </ol>
+                    <li style="font-weight: bolder;">Save the model</li>
+                        <ol>
+                            <li>Choose "Save" button</li>
+                            <li>Download the file</li>
+                        </ol>
+                    <li style="font-weight: bolder;">Load the model</li>
+                        <ol>
+                            <li>Choose "Browse..." button</li>
+                            <li>Choose the file</li>
+                            <li>Choose "Load" button</li>
+                        </ol>
+                </ol>
+            </div>
         </div>
+
     </body>
     <script type = "text/javascript" src= "scripts/state.js"></script>
     <script type = "text/javascript" src= "scripts/function.js"></script>

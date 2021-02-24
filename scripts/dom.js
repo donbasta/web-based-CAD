@@ -83,3 +83,18 @@ const hideForm = (shapeForm) => {
         lineForm.style.display = 'none';
     }
 }
+
+let helpButton = document.getElementById("help-button");
+let helpModal = document.getElementById("help-modal");
+let closeButton = document.getElementById("close");
+helpButton.addEventListener('click', () => {
+    helpModal.style.display = 'block';
+});
+closeButton.addEventListener('click', () => {
+    helpModal.style.display = 'none';
+});
+window.addEventListener('click', (e) => {
+    if (e.target === helpModal) {
+        helpModal.style.display = 'none';
+    }
+})

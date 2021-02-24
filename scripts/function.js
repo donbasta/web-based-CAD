@@ -242,7 +242,6 @@ const saveShapes = () => {
 const loadShapes = (text) => {
     while(allShape.length > 0) allShape.length = 0
     var rows = text.split('\r\n');
-    console.log(rows)
     for (var i = 0; i < rows.length-1; i++){
         var line = rows[i].split(',');
         var coordinates = [];
@@ -258,12 +257,9 @@ const loadShapes = (text) => {
 // Load .csv external file into canvas
 const load = () => {
     var filename = document.getElementById('load-filename');
-    // filename = filename.replace(/.*[\/\\]/, '');
-    console.log(filename.files);
     var fileReader = new FileReader()
     fileReader.onloadend = () => (loadShapes(fileReader.result))
     fileReader.readAsText(filename.files[0])
-    // loadFile(filename);
 }
 
 // load button enabler disabler

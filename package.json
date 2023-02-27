@@ -1,0 +1,23 @@
+{
+  "name": "web-based-cad",
+  "version": "1.0.0",
+  "description": "Web Based Computer Aided Design with WebGL",
+  "main": "index.html",
+  "scripts": {
+    "start": "open ./index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/donbasta/web-based-CAD.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/donbasta/web-based-CAD/issues"
+  },
+  "homepage": "https://github.com/donbasta/web-based-CAD#readme",
+  "dependencies": {
+    "open": "^8.4.2"
+  }
+}

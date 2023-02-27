@@ -12,7 +12,7 @@ const COLORS = [
 ];
 
 const identityMatrix = (size) => {
-    identityMat = new Array(size * size);
+    let identityMat = new Array(size * size);
     for (let i = 0; i < size * size; i++) {
         if (i % (size + 1) == 0) {
             identityMat[i] = 1.0;
